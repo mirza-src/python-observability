@@ -1,0 +1,34 @@
+otelcol.receiver.otlp "default" {
+	grpc {
+		endpoint = "0.0.0.0:4317"
+	}
+
+	http {
+		endpoint = "0.0.0.0:4318"
+	}
+
+	output {
+		metrics = [otelcol.processor.batch.default.input]
+		logs    = [otelcol.processor.batch.default.input]
+		traces  = [otelcol.processor.batch.default.input]
+	}
+}
+
+otelcol.processor.batch "default" {
+	output {
+		metrics = [otelcol.exporter.logging.default.input]
+		logs    = [otelcol.exporter.logging.default.input]
+		traces  = [otelcol.exporter.logging.default.input]
+	}
+}
+
+otelcol.exporter.logging "default" {
+	verbosity           = "detailed"
+	sampling_initial    = 1
+	sampling_thereafter = 1
+}
+
+logging {
+	level  = "info"
+	format = "json"
+}

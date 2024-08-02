@@ -1,0 +1,31 @@
+version: "3"
+
+tasks:
+  default:
+    desc: Show list of available tasks
+    cmds:
+      - task: list
+
+  list:
+    desc: Show list of available tasks
+    cmds:
+      - task --list
+
+  alloy:
+    desc: Run Grafana Alloy (OTLP receiver)
+    cmds:
+      - alloy run config.alloy
+
+  example:
+    desc: Run a configured example
+    vars:
+      EXAMPLE_NAME: "{{ .CLI_ARGS }}"
+    cmds:
+      # Check if the example is available
+      - test -d "examples/{{ .EXAMPLE_NAME }}" || (echo "Example '{{ .EXAMPLE_NAME }}' not found" && exit 1)
+      # Install dependencies
+      - poetry install
+      # Run Grafana Alloy (OTLP receiver) in the background
+      - alloy run config.alloy &
+      # Run the example with gunicorn
+      - gunicorn -c "examples/{{ .EXAMPLE_NAME }}/gunicorn.config.py" "examples.{{ .EXAMPLE_NAME }}:app"

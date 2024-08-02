@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "python-observability"
+version = "0.1.0"
+description = "Simple examples to add observability to python applications"
+authors = ["Mirza Esaaf Shuja <mirzaesaaf@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Flask = "^3.0.3"
+opentelemetry-distro = "^0.47b0"
+opentelemetry-exporter-prometheus = "^0.47b0"
+opentelemetry-exporter-otlp = "^1.26.0"
+gunicorn = "^22.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
